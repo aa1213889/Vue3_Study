@@ -1,13 +1,13 @@
 <template>
   <div class="todolist-foot">
-    <input type="checkbox" />
-    <span>已选中：{{ getCheckedNum() }}/全部：{{ todoLists.length }}</span>
-    <button class="btn">清除已完成任务</button>
+    <input type="checkbox" :checked="checked" @click="checkHandle" />
+    <span>已选中：{{ checkNum }}/全部：{{ todoLists.length }}</span>
+    <button class="btn" @click="delCheckedLists">清除已完成任务</button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watchEffect } from 'vue'
 import { ITodoLists } from './todos'
 
 export default defineComponent({
@@ -16,14 +16,36 @@ export default defineComponent({
     todoLists: {
       type: Array as () => ITodoLists[],
       required: true
+    },
+    delCheckedLists: {
+      type: Function,
+      required: true
+    },
+    checkAllHandle: {
+      type: Function,
+      required: true
     }
   },
   setup(props) {
-    function getCheckedNum() {
-      return 23
+    const checked = ref(false)
+    function checkHandle() {
+      checked.value = !checked.value
+      props.checkAllHandle(checked.value)
     }
+    const checkNum = ref(0)
+    watchEffect(() => {
+      let num = 0
+      for (const list of props.todoLists) {
+        if (list.isChecked) num++
+      }
+      checkNum.value = num
+      num === props.todoLists.length ? (checked.value = true) : (checked.value = false)
+    })
+
     return {
-      getCheckedNum
+      checked,
+      checkHandle,
+      checkNum
     }
   }
 })

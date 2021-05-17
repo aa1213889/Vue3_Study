@@ -1,6 +1,13 @@
 <template>
   <div class="todolist-content">
-    <List v-for="(list, index) in todoLists" :key="list.id" :list="list" :delList="delList" :index="index" />
+    <List
+      v-for="(list, index) in todoLists"
+      :key="list.id"
+      :list="list"
+      :delList="delList"
+      :index="index"
+      :editList="editList"
+    />
   </div>
 </template>
 
@@ -11,7 +18,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'Content',
   components: { List },
-  props: ['todoLists', 'delList']
+  props: ['todoLists', 'delList', 'editList']
 })
 </script>
 

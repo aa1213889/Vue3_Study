@@ -1,6 +1,6 @@
 <template>
   <div class="todolist-list" @mouseover="mouseHandle(true)" @mouseleave="mouseHandle(false)">
-    <input type="checkbox" :checked="list.isChecked" />
+    <input type="checkbox" :checked="list.isChecked" @click="editList(index)" />
     <span>{{ list.text }}</span>
     <button v-show="btnShow" @click="delList(index)">删除</button>
   </div>
@@ -15,6 +15,10 @@ export default defineComponent({
   props: {
     list: Object as () => ITodoLists,
     delList: {
+      type: Function,
+      required: true
+    },
+    editList: {
       type: Function,
       required: true
     },
