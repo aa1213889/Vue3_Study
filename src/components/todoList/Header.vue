@@ -1,9 +1,30 @@
 <template>
-  <input class="todo-input" placeholder="请输入任务名称，按回车确认" />
+  <input class="todo-input" placeholder="请输入任务名称，按回车确认" v-model="iValue" @keyup.enter="setValue" />
 </template>
 
 <script>
-export default {}
+import { defineComponent, ref } from 'vue'
+export default defineComponent({
+  name: 'Header',
+  props: {
+    addList: {
+      type: Function,
+      required: true
+    }
+  },
+  setup(props) {
+    const iValue = ref('')
+    function setValue() {
+      if (iValue.value === '') return
+      props.addList(iValue.value)
+      iValue.value = ''
+    }
+    return {
+      iValue,
+      setValue
+    }
+  }
+})
 </script>
 
 <style>

@@ -1,18 +1,30 @@
 <template>
   <div class="todolist-foot">
     <input type="checkbox" />
-    <span>已完成：/全部：</span>
+    <span>已选中：{{ getCheckedNum() }}/全部：{{ todoLists.length }}</span>
     <button class="btn">清除已完成任务</button>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { ITodoLists } from './todos'
+
 export default defineComponent({
   name: 'Footer',
-  setup() {
-    const myInputRef = ref<HTMLElement | null>(null)
-    return { myInputRef }
+  props: {
+    todoLists: {
+      type: Array as () => ITodoLists[],
+      required: true
+    }
+  },
+  setup(props) {
+    function getCheckedNum() {
+      return 23
+    }
+    return {
+      getCheckedNum
+    }
   }
 })
 </script>
